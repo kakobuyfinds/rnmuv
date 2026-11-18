@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#122b21">
+  <title>iTaoBuy spreadsheet | CAFANS Finds, Prices &amp; Buying Checklist</title>
+  <meta name="description" content="Browse real CAFANS shoes, sweatshirts and tees, compare estimated USD prices, and download an iTaoBuy spreadsheet shortlist with size and QC notes.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="iTaoBuy spreadsheet | CAFANS Finds and Buying Checklist">
+  <meta property="og:description" content="Compare CAFANS product links, save a CSV shortlist and check the details that affect your order.">
+  <!--
+    File: index.html
+    Search research: Public results surfaced itaobuysheets.com, itaobuyspreadsheet.net,
+    itaobuy-spreadsheet.net and chinagrails.com/en/spreadsheet/agent/itaobuy.
+    Their pages emphasize category navigation, QC photos, listing research and shipping.
+    This page adds an editable, downloadable shortlist and keeps source links and item
+    estimates in the initial HTML. Exact Google first-page positions were unverified.
+    Catalogue source: https://cafans.com/
+    Indexing submission is pending a live URL on a verified property. After publishing,
+    add a self-referencing canonical and submit the URL in Google Search Console
+    URL Inspection and Bing Webmaster Tools URL Submission.
+    Google: https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl
+    Bing: https://www.bing.com/webmasters/help/URL-Submission-62f2860b
+  -->
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #122b21;
+      --muted: #475950;
+      --paper: #f4f4eb;
+      --line: #cbd5cd;
+      --leaf: #d8fa94;
+      --white: #fff;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font: 1rem/1.6 "Instrument Sans", system-ui, sans-serif; }
+    [hidden] { display: none !important; }
+    .wrap { width: min(70rem, calc(100% - 2rem)); margin-inline: auto; }
+    .skip { position: absolute; left: 1rem; top: -6rem; padding: .75rem; background: white; z-index: 2; }
+    .skip:focus { top: 1rem; }
+    a { color: inherit; text-underline-offset: .2em; }
+    :focus-visible { outline: 3px solid #915610; outline-offset: 4px; }
+    header { background: var(--ink); color: var(--white); text-align: center; }
+    nav, .actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .75rem 1.5rem; }
+    nav { padding: 1rem 0; border-bottom: 1px solid #ffffff33; }
+    nav a { font-size: .95rem; }
+    .hero { padding: clamp(3rem, 9vw, 7rem) 0; }
+    h1, h2, h3, p { margin: 0; }
+    h1 { max-width: 13ch; margin-inline: auto; font-size: clamp(2.8rem, 8vw, 6.5rem); line-height: .98; letter-spacing: -.065em; overflow-wrap: anywhere; }
+    .hero p { max-width: 40rem; margin: 1.25rem auto 1.75rem; color: #e1ecdf; }
+    .button, button {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 2.75rem; border: 1px solid transparent; border-radius: .6rem;
+      padding: .55rem 1rem; background: var(--leaf); color: var(--ink);
+      font: inherit; font-weight: 700; text-decoration: none; cursor: pointer;
+    }
+    .button.secondary { background: transparent; border-color: #ffffff80; color: var(--white); }
+    button { background: var(--ink); color: var(--white); }
+    button:disabled { opacity: .6; cursor: default; }
+    section { padding: clamp(2.4rem, 6vw, 4.5rem) 0; scroll-margin-top: 1rem; }
+    section + section { border-top: 1px solid var(--line); }
+    h2 { font-size: clamp(1.65rem, 4vw, 2.8rem); line-height: 1.1; letter-spacing: -.04em; margin-bottom: .7rem; }
+    h3 { font-size: 1.2rem; line-height: 1.3; }
+    .muted { color: var(--muted); }
+    .controls, .grid, .guide { display: grid; gap: 1rem; }
+    .controls { grid-template-columns: 2fr 1fr; margin: 1.25rem 0 .65rem; }
+    label { display: block; font-weight: 650; }
+    input:not([type="checkbox"]), select, textarea {
+      width: 100%; padding: .55rem .7rem; border: 1px solid #798b7e;
+      border-radius: .45rem; background: white; color: var(--ink); font: inherit;
+    }
+    textarea { display: block; resize: vertical; min-height: 4rem; }
+    input[type="checkbox"] { accent-color: var(--ink); width: 1.05rem; height: 1.05rem; vertical-align: -.13em; }
+    #result-count { margin-bottom: .65rem; }
+    .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .product, .step {
+      background: white; border: 1px solid var(--line);
+      border-radius: 1rem; padding: clamp(1rem, 3vw, 1.5rem);
+    }
+    .product { display: flex; flex-direction: column; gap: .7rem; }
+    .category { font-size: .9rem; color: var(--muted); }
+    .price { font-size: 1.4rem; font-weight: 750; }
+    .notes { margin-top: auto; padding-top: .65rem; border-top: 1px solid var(--line); }
+    .notes label + label { margin-top: .75rem; }
+    .export { display: flex; align-items: center; flex-wrap: wrap; gap: .8rem; margin-top: 1.25rem; }
+    .guide { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 1rem; }
+    .step p { margin-top: .5rem; }
+    details { border-bottom: 1px solid var(--line); padding: .9rem 0; }
+    summary { font-weight: 700; cursor: pointer; }
+    details p { margin-top: .5rem; }
+    footer { padding: 1.5rem 0; border-top: 1px solid var(--line); text-align: center; color: var(--muted); }
+    @media (max-width: 48rem) { .grid, .guide { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 34rem) { .controls, .grid, .guide { grid-template-columns: 1fr; } }
+  </style>
+<link rel="canonical" href="https://kakobuyfinds.github.io/rnmuv/">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to main content</a>
+  <header>
+    <div class="wrap">
+      <nav aria-label="Page sections">
+        <a href="#catalog">Product catalogue</a>
+        <a href="#checklist">Buying checklist</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="hero">
+        <h1>iTaoBuy spreadsheet</h1>
+        <p>Browse shoes and clothing from CAFANS, compare estimated item prices, and download a shortlist with your size and quality-control notes.</p>
+        <div class="actions">
+          <a class="button" href="https://cafans.com/">iTaoBuy spreadsheet</a>
+          <a class="button secondary" href="https://cafans.com/">Buy it now</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <section id="catalog" aria-labelledby="catalog-title">
+      <h2 id="catalog-title">CAFANS product catalogue</h2>
+      <p class="muted">Featured listings from the <a href="https://cafans.com/">CAFANS catalogue</a>. Prices are USD estimates from the source. Open each product to check the current price, options and buying link.</p>
+
+      <div id="filters" class="controls" hidden>
+        <label>Search products
+          <input id="query" type="search" placeholder="Search by name or item ID">
+        </label>
+        <label>Category
+          <select id="category">
+            <option value="">All categories</option>
+            <option value="Shoes">Shoes</option>
+            <option value="Hoodies &amp; sweaters">Hoodies &amp; sweaters</option>
+            <option value="T-shirts">T-shirts</option>
+          </select>
+        </label>
+      </div>
+      <p id="result-count" class="muted" role="status" hidden></p>
+      <div id="products" class="grid">
+        <article class="product" data-id="158791" data-category="Shoes" data-price="62.36">
+          <p class="category">Shoes</p>
+          <h3><a href="https://cafans.com/goods-158791.html">Leather Slides</a></h3>
+          <p class="price">$62.36 <small>USD</small></p>
+        </article>
+        <article class="product" data-id="158792" data-category="Hoodies &amp; sweaters" data-price="27.50">
+          <p class="category">Hoodies &amp; sweaters</p>
+          <h3><a href="https://cafans.com/goods-158792.html">Sweatshirt</a></h3>
+          <p class="price">$27.50 <small>USD</small></p>
+        </article>
+        <article class="product" data-id="158200" data-category="T-shirts" data-price="32.64">
+          <p class="category">T-shirts</p>
+          <h3><a href="https://cafans.com/goods-158200.html">Unisex Embroidered Oversized T-Shirt</a></h3>
+          <p class="price">$32.64 <small>USD</small></p>
+        </article>
+      </div>
+      <div id="export-controls" class="export" hidden>
+        <button id="download" type="button" disabled>Download shortlist CSV</button>
+        <span id="saved-count" class="muted" role="status"></span>
+      </div>
+      <noscript><p>Enable JavaScript to filter products and download a shortlist.</p></noscript>
+    </section>
+
+    <section id="checklist" aria-labelledby="checklist-title">
+      <h2 id="checklist-title">Before you order with iTaoBuy</h2>
+      <div class="guide">
+        <article class="step">
+          <h3>Confirm the source link</h3>
+          <p>Open the CAFANS product page and locate the buying link. Check that the agent accepts the seller URL and that the listing still offers the colour, size and quantity you selected.</p>
+        </article>
+        <article class="step">
+          <h3>Record measurements for QC</h3>
+          <p>Save the relevant measurements in your shortlist. For a tee, compare chest width and garment length with one you own. If warehouse photos are available, check the variant, measurements and visible defects before approving shipment.</p>
+        </article>
+        <article class="step">
+          <h3>Compare the delivered total</h3>
+          <p>Keep item price, domestic delivery, agent fees, international shipping and applicable import charges in separate columns. Compare quotes for the same destination and packed dimensions, and check which costs each quote includes.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="faq" aria-labelledby="faq-title">
+      <h2 id="faq-title">Frequently asked questions</h2>
+      <details>
+        <summary>What is an iTaoBuy spreadsheet?</summary>
+        <p>It is a product research list you can use before placing an order through iTaoBuy. This one brings together CAFANS product links, estimated item prices and space for your own size and QC notes.</p>
+      </details>
+      <details>
+        <summary>How do I open my shortlist in Google Sheets?</summary>
+        <p>Select the products you want, add any notes, and download the CSV. In Google Sheets, choose File → Import and upload the file. The download includes the CAFANS listing URL for each selected item.</p>
+      </details>
+      <details>
+        <summary>Does the USD estimate include shipping?</summary>
+        <p>The estimate covers the item price shown by CAFANS. Confirm the current price for your variant, shipping and applicable fees before ordering.</p>
+      </details>
+      <details>
+        <summary>Where can I find quality-control photos?</summary>
+        <p>If your agent provides warehouse QC photos, look for them in the corresponding order after the item arrives. Match the photos to the exact variant and request any missing measurements before dispatch.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">Independent shopping guide · Product listings sourced from <a href="https://cafans.com/">CAFANS</a></div>
+  </footer>
+
+  <script>
+    (() => {
+      const query = document.getElementById('query');
+      const category = document.getElementById('category');
+      const resultCount = document.getElementById('result-count');
+      const savedCount = document.getElementById('saved-count');
+      const download = document.getElementById('download');
+
+      const products = Array.from(document.querySelectorAll('#products .product'), card => {
+        const link = card.querySelector('h3 a');
+        const fields = document.createElement('div');
+        fields.className = 'notes';
+
+        const selectLabel = document.createElement('label');
+        const selected = document.createElement('input');
+        selected.type = 'checkbox';
+        selected.setAttribute('aria-label', `Save ${link.textContent} to shortlist`);
+        selectLabel.append(selected, ' Save to shortlist');
+
+        const noteLabel = document.createElement('label');
+        noteLabel.textContent = 'Size or QC notes';
+        const notes = document.createElement('textarea');
+        notes.maxLength = 500;
+        notes.setAttribute('aria-label', `Size or QC notes for ${link.textContent}`);
+        noteLabel.append(notes);
+        fields.append(selectLabel, noteLabel);
+        card.append(fields);
+
+        return { card, link, selected, notes, ...card.dataset };
+      });
+
+      function updateFilter() {
+        const term = query.value.trim().toLowerCase();
+        let shown = 0;
+        for (const product of products) {
+          const searchable = `${product.link.textContent} ${product.id}`.toLowerCase();
+          const matches = searchable.includes(term) && (!category.value || category.value === product.category);
+          product.card.hidden = !matches;
+          if (matches) shown += 1;
+        }
+        resultCount.textContent = shown ? `${shown} of ${products.length} products shown` : 'No products match your filters.';
+      }
+
+      function updateShortlist() {
+        const count = products.filter(product => product.selected.checked).length;
+        download.disabled = count === 0;
+        savedCount.textContent = `${count} selected for download`;
+      }
+
+      function csvCell(value) {
+        const cell = String(value);
+        const safeCell = /^[\s\uFEFF]*[=+\-@]|^[\t\r\n]/.test(cell) ? "'" + cell : cell;
+        return '"' + safeCell.replace(/"/g, '""') + '"';
+      }
+
+      function downloadShortlist() {
+        const rows = [['Product', 'Category', 'Estimated item price (USD)', 'CAFANS listing', 'Size or QC notes']];
+        for (const product of products.filter(item => item.selected.checked)) {
+          rows.push([product.link.textContent, product.category, product.price, product.link.href, product.notes.value]);
+        }
+        const csv = '\uFEFF' + rows.map(row => row.map(csvCell).join(',')).join('\r\n') + '\r\n';
+        const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'itaobuy-shortlist.csv';
+        document.body.append(link);
+        link.click();
+        link.remove();
+        window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }
+
+      query.addEventListener('input', updateFilter);
+      category.addEventListener('change', updateFilter);
+      for (const product of products) product.selected.addEventListener('change', updateShortlist);
+      download.addEventListener('click', downloadShortlist);
+      document.getElementById('filters').hidden = false;
+      document.getElementById('export-controls').hidden = false;
+      resultCount.hidden = false;
+      updateFilter();
+      updateShortlist();
+    })();
+  </script>
+</body>
+</html>
